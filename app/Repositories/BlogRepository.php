@@ -4,16 +4,21 @@ namespace App\Repositories;
 
 use App\Models\Blog;
 use Carbon\Carbon;
+use Illuminate\Http\Request;
 use Illuminate\Pagination\LengthAwarePaginator;
 
 class BlogRepository implements BlogRepositoryInterface
 {
     public function all(int $perPage = 10)
     {
-        // Fetch blogs with published_date not null
-        $blogs = Blog::latest()
+        $blogs = Blog::query()
+            ->when(request()->input('search'), function ($query, $search) {
+                $query->where('title', 'like', "%{$search}%");
+            })
+            ->latest()
             ->whereNotNull('published_date')
-            ->paginate($perPage);
+            ->paginate($perPage)
+            ->withQueryString();
 
         return $blogs;
     }

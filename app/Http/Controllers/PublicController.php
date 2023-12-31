@@ -28,6 +28,7 @@ class PublicController extends Controller
                 'canLogin' => Route::has('login'),
                 'canRegister' => Route::has('register'),
                 'blogs' => $blogs,
+                'filters' => request()->only('search'),
             ]
         );
     }

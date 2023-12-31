@@ -34,6 +34,16 @@
           This our blog
         </p>
       </div>
+      <div class="mx-auto max-w-screen-sm text-center lg:mb-16 mb-8">
+        <input
+          class="border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm mt-1 block w-full"
+          type="text"
+          name="title"
+          id="title"
+          placeholder="Search Blog...."
+          v-model="search"
+        />
+      </div>
       <div class="grid gap-8 lg:grid-cols-2">
         <article
           v-for="blog in blogs.data"
@@ -75,16 +85,19 @@
             </Link>
           </div>
         </article>
-
-        <div class="mt-4">
-          <Pagination :links="blogs.links" class="mt-6" />
-        </div>
+      </div>
+      <div class="mt-4">
+        <Pagination :links="blogs.links" class="mt-6" />
       </div>
     </div>
   </section>
 </template>
 <script setup>
 import Pagination from "@/Components/Pagination.vue";
+import { ref, watch } from "vue";
+import { Head } from "@inertiajs/vue3";
+import { router } from "@inertiajs/vue3";
+import { usePage } from "@inertiajs/vue3";
 
 defineProps({
   canLogin: {
@@ -94,5 +107,12 @@ defineProps({
     type: Boolean,
   },
   blogs: Object,
+  filters: Object,
+});
+
+let search = ref(usePage().props.filters.search);
+
+watch(search, (value) => {
+  router.get("/", { search: value }, { preserveState: true });
 });
 </script>
