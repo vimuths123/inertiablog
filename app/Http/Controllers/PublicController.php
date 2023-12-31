@@ -32,4 +32,18 @@ class PublicController extends Controller
             ]
         );
     }
+
+    public function show(Blog $blog)
+    {
+
+        $latestBlogs = $this->blogRepository->latestExceptCurrent($blog, 4);
+
+        return Inertia::render(
+            'Blogitem',
+            [
+                'blog' => $blog,
+                'latestBlogs' => $latestBlogs
+            ]
+        );
+    }
 }

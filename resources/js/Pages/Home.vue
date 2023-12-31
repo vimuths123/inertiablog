@@ -51,7 +51,7 @@
           class="p-6 bg-white rounded-lg border border-gray-200 shadow-md dark:bg-gray-800 dark:border-gray-700"
         >
           <div class="flex justify-between items-center mb-5 text-gray-500">
-            <span class="text-sm"></span>
+            <span class="text-sm">{{ formatDate(blog.published_date) }}</span>
           </div>
           <h2
             class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white"
@@ -60,7 +60,13 @@
               {{ blog.title }}
             </Link>
           </h2>
-          <p class="mb-5 font-light text-gray-500 dark:text-gray-400"></p>
+          <p class="mb-5 font-light text-gray-500 dark:text-gray-400">
+            {{
+              blog.content.length > 100
+                ? blog.content.slice(0, 100) + "..."
+                : blog.content
+            }}
+          </p>
           <div class="flex justify-between items-center">
             <div class="flex items-center space-x-4">
               <span class="font-medium dark:text-white"> </span>
@@ -98,6 +104,11 @@ import { ref, watch } from "vue";
 import { Head } from "@inertiajs/vue3";
 import { router } from "@inertiajs/vue3";
 import { usePage } from "@inertiajs/vue3";
+import debounce from "lodash/debounce";
+// need to install "npm install lodash"
+import dayjs from "dayjs";
+import relativeTime from "dayjs/plugin/relativeTime";
+dayjs.extend(relativeTime);
 
 defineProps({
   canLogin: {
@@ -112,7 +123,14 @@ defineProps({
 
 let search = ref(usePage().props.filters.search);
 
-watch(search, (value) => {
-  router.get("/", { search: value }, { preserveState: true });
-});
+watch(
+  search,
+  debounce((value) => {
+    router.get("/", { search: value }, { preserveState: true, replace: true });
+  }, 300)
+);
+
+const formatDate = (date) => {
+  return dayjs(date).fromNow();
+};
 </script>

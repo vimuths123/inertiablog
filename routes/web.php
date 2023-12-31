@@ -22,6 +22,8 @@ use Inertia\Inertia;
 
 
 Route::get('/', [PublicController::class, 'index'])->name('home');
+Route::get('/blogitem/{blog}', [PublicController::class, 'show'])->name('showblog');
+
 
 // Route::get('/', function () {
 //     return Inertia::render('Welcome', [

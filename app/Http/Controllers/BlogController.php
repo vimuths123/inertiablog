@@ -31,6 +31,7 @@ class BlogController extends Controller
             'Blog/Index',
             [
                 'blogs' => $userBlogs,
+                'filters' => request()->only('search'),
             ]
         );
     }

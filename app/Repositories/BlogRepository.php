@@ -44,8 +44,13 @@ class BlogRepository implements BlogRepositoryInterface
 
     public function getUserBlogs($userId, int $perPage = 10)
     {
-        return Blog::where('user_id', $userId)
-            ->paginate($perPage);
+        return Blog::query()
+            ->when(request()->input('search'), function ($query, $search) {
+                $query->where('title', 'like', "%{$search}%");
+            })
+            ->where('user_id', $userId)
+            ->paginate($perPage)
+            ->withQueryString();
     }
 
     public function update($id, array $data)
