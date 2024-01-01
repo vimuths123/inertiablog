@@ -55,6 +55,7 @@ class BlogRepository implements BlogRepositoryInterface
                 $query->where('title', 'like', "%{$search}%");
             })
             ->where('user_id', $userId)
+            ->orderBy('updated_at', 'desc') 
             ->paginate($perPage)
             ->withQueryString()
             ->through(fn($blog) => [

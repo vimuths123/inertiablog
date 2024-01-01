@@ -61,8 +61,14 @@
                       >Edit</Link>
                     <Link :href="route('blogs.show', blog.id)" class="text-green-500 hover:underline mr-2"
                       >View</Link>  
-                    <Link :href="route('blogs.destroy', blog.id)" method="delete" class="text-red-500 hover:underline mr-2"
-                      >Delete</Link>   
+                    <!-- <Link :href="route('blogs.destroy', blog.id)" method="delete" class="text-red-500 hover:underline mr-2"
+                      >Delete</Link>    -->
+                    <a href="#" @click="confirmDelete(blog.id)"
+                       class="text-red-500 hover:underline mr-2"
+                      >Delete</a>    
+                    <a href="#" @click="setstatus(blog)" class="text-yellow-500 hover:underline mr-2"
+                      >{{ blog.published_date ? "Unpublish" : "Publish" }}</a>  
+
                   </td>
                 </tr>
               </tbody>
@@ -87,12 +93,31 @@ const getStatus = (blog) => {
   return blog.published_date ? "Published" : "Not Published";
 };
 
+
 let search = ref(usePage().props.filters.search);
 
 defineProps({
   blogs: Object,
   filters: Object,
 });
+
+const setstatus = (blog) => {
+  if(blog.published_date){
+    if (window.confirm('Are you sure you want to unpublish this blog?')) {
+      router.post(route('blogs.unpublish', blog.id));
+    }
+  }else{
+    if (window.confirm('Are you sure you want to publish this blog?')) {
+      router.post(route('blogs.publish', blog.id));
+    }
+  }
+};
+
+const confirmDelete = (id) => {
+  if (window.confirm('Are you sure you want to delete this blog?')) {
+    router.delete(route('blogs.destroy', id));
+  }
+};
 
 watch(search, debounce((value) => {
     router.get("/blogs", { search: value }, { preserveState: true, replace: true });
