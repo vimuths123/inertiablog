@@ -18,7 +18,16 @@ class BlogRepository implements BlogRepositoryInterface
             ->latest()
             ->whereNotNull('published_date')
             ->paginate($perPage)
-            ->withQueryString();
+            ->withQueryString()
+            ->through(fn($blog) => [
+                'id' => $blog->id,
+                'title' => $blog->title,
+                'content' => $blog->content,
+                'published_date' => $blog->published_date,
+                'view_route' => route('showblog', $blog->id),
+            ]);
+
+        // dd($blogs);    
 
         return $blogs;
     }

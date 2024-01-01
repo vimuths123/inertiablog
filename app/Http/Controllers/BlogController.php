@@ -8,6 +8,7 @@ use App\Models\Blog;
 use Illuminate\Http\Request;
 use App\Repositories\BlogRepositoryInterface;
 use Inertia\Inertia;
+use Carbon\Carbon;
 
 class BlogController extends Controller
 {
@@ -100,5 +101,23 @@ class BlogController extends Controller
     public function destroy(Blog $blog)
     {
         //
+    }
+
+    public function publish($id)
+    {
+        $blog = Blog::findOrFail($id);
+        $this->authorize('update', $blog);
+        $blog->update(['published_date' => Carbon::now()]);
+
+        return redirect()->route('blog.index');
+    }
+
+    public function unpublish($id)
+    {
+        $blog = Blog::findOrFail($id);
+        $this->authorize('update', $blog);
+        $blog->update(['published_date' => null]);
+
+        return redirect()->route('blog.index');
     }
 }

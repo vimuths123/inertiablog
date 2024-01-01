@@ -56,7 +56,7 @@
           <h2
             class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white"
           >
-            <Link href="/test">
+            <Link :href="blog.view_route">
               {{ blog.title }}
             </Link>
           </h2>
@@ -71,10 +71,8 @@
             <div class="flex items-center space-x-4">
               <span class="font-medium dark:text-white"> </span>
             </div>
-            <Link
-              href="/test"
-              class="inline-flex items-center font-medium text-primary-600 dark:text-primary-500 hover:underline"
-            >
+            <Link :href="blog.view_route" 
+            class="inline-flex items-center font-medium text-primary-600 dark:text-primary-500 hover:underline">
               Read more
               <svg
                 class="ml-2 w-4 h-4"

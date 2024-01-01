@@ -48,6 +48,7 @@ Route::middleware('auth')->group(function () {
     Route::post('blogs/store', [BlogController::class, 'store'])->name('blogs.store');
     Route::get('/blogs/{blog}/edit', [BlogController::class, 'edit'])->name('blogs.edit');
     Route::put('/blogs/{blog}', [BlogController::class, 'update'])->name('blogs.update');
+    Route::get('/blogs/{blog}', [BlogController::class, 'show'])->name('blogs.show');
 });
 
 require __DIR__ . '/auth.php';

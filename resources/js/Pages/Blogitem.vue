@@ -51,11 +51,11 @@
         Latest articles
       </h2>
       <div class="grid gap-12 sm:grid-cols-2 lg:grid-cols-4">
-        <article class="max-w-xs" v-for="blog in latestBlogs" :key="blog.id">
+        <article class="max-w-xs " v-for="blog in latestBlogs" :key="blog.id">
           <h2
             class="mb-2 text-xl font-bold leading-tight text-gray-900 dark:text-white"
           >
-            <a href="#">{{ blog.title }}</a>
+            <Link href="">{{ blog.title }}</Link>
           </h2>
           <p class="mb-4 text-gray-500 dark:text-gray-400">
             {{
