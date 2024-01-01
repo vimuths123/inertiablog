@@ -64,7 +64,12 @@ class BlogController extends Controller
      */
     public function show(Blog $blog)
     {
-        //
+        return Inertia::render(
+            'Blog/Show',
+            [
+                'blog' => $blog
+            ]
+        );
     }
 
     /**
@@ -100,7 +105,10 @@ class BlogController extends Controller
      */
     public function destroy(Blog $blog)
     {
-        //
+        $this->authorize('delete', $blog);
+        $blog = $this->blogRepository->delete($blog->id);
+
+        return redirect()->route('blog.index');
     }
 
     public function publish($id)

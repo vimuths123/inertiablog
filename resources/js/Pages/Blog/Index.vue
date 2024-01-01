@@ -57,9 +57,12 @@
                     {{ getStatus(blog) }}
                   </td>
                   <td class="py-2 px-4 border border-gray-300">
-                    <Link href="" class="text-blue-500 hover:underline mr-2"
-                      >Edit</Link
-                    >
+                    <Link :href="route('blogs.edit', blog.id)" class="text-blue-500 hover:underline mr-2"
+                      >Edit</Link>
+                    <Link :href="route('blogs.show', blog.id)" class="text-green-500 hover:underline mr-2"
+                      >View</Link>  
+                    <Link :href="route('blogs.destroy', blog.id)" method="delete" class="text-red-500 hover:underline mr-2"
+                      >Delete</Link>   
                   </td>
                 </tr>
               </tbody>
