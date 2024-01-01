@@ -27,8 +27,6 @@ class BlogRepository implements BlogRepositoryInterface
                 'view_route' => route('showblog', $blog->id),
             ]);
 
-        // dd($blogs);    
-
         return $blogs;
     }
 
